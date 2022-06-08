@@ -7,7 +7,7 @@ Java data structures
 Lists
 -----
 
-- [ ] Dynamic array
+- [x] Dynamic array
 - [x] Singly linked list
 - [ ] Doubly linked list
 - [ ] Queue
