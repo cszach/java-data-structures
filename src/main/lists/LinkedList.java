@@ -1,8 +1,10 @@
-class LinkedListNode {
-  public byte data;
-  protected LinkedListNode next;
+import java.lang.reflect.Array;
 
-  public LinkedListNode(byte data, LinkedListNode next) {
+class LinkedListNode<T> {
+  public T data;
+  protected LinkedListNode<T> next;
+
+  public LinkedListNode(T data, LinkedListNode<T> next) {
     this.data = data;
     this.next = next;
   }
@@ -20,7 +22,7 @@ class LinkedListNode {
  *     <li>Delete data at an index: O(n)</li>
  *   </ul>
  */
-public class LinkedList {
+public class LinkedList<T> {
   /**
    * The head of the linked list which is a <code>LinkedListNode</code> that
    * points to the first node of the linked list.
@@ -29,26 +31,26 @@ public class LinkedList {
    * Having the head being an empty node rather than the first node in the
    * actual list helps clean the code and reduces if statements.
    */
-  private LinkedListNode head;
+  private LinkedListNode<T> head;
   /**
    * The number of nodes in this linked list, excluding the head.
    */
   private int length;
 
   public LinkedList() {
-    this.head = new LinkedListNode((byte) 0, null);
+    this.head = new LinkedListNode<T>(null, null);
     this.length = 0;
   }
 
-  public LinkedList(byte[] data) {
-    this.head = new LinkedListNode((byte) 0, null);
+  public LinkedList(T[] data) {
+    this.head = new LinkedListNode<T>(null, null);
     this.length = 0;
 
-    for (byte d: data)
+    for (T d: data)
       this.insert(d, this.length);
   }
 
-  public LinkedListNode getHead() {
+  public LinkedListNode<T> getHead() {
     return this.head;
   }
 
@@ -71,10 +73,10 @@ public class LinkedList {
    * @param index
    * @return The data stored at the index.
    */
-  public byte get(int index) {
+  public T get(int index) {
     if (index < 0 || index >= this.length) throw new IndexOutOfBoundsException();
 
-    LinkedListNode node = this.head.next;
+    LinkedListNode<T> node = this.head.next;
 
     for (int i = 0; i < index; i++)
       node = node.next;
@@ -91,8 +93,8 @@ public class LinkedList {
    * @param data
    * @return The new node inserted that contains the data.
    */
-  public LinkedListNode insertAtHead(byte data) {
-    LinkedListNode newNode = new LinkedListNode(data, this.head.next);
+  public LinkedListNode<T> insertAtHead(T data) {
+    LinkedListNode<T> newNode = new LinkedListNode<T>(data, this.head.next);
     this.head.next = newNode;
 
     this.length++;
@@ -111,11 +113,11 @@ public class LinkedList {
    * <code>this.length</code> (inclusive).
    * @return The new node inserted that contains the data.
    */
-  public LinkedListNode insert(byte data, int index) {
+  public LinkedListNode<T> insert(T data, int index) {
     if (index < 0 || index > this.length) throw new IndexOutOfBoundsException();
 
-    LinkedListNode newNode = new LinkedListNode(data, null);
-    LinkedListNode prevNode = this.head;
+    LinkedListNode<T> newNode = new LinkedListNode<T>(data, null);
+    LinkedListNode<T> prevNode = this.head;
 
     for (int i = 0; i < index; i++)
       prevNode = prevNode.next;
@@ -136,15 +138,15 @@ public class LinkedList {
    * @param index
    * @return The deleted node.
    */
-  public LinkedListNode delete(int index) {
+  public LinkedListNode<T> delete(int index) {
     if (index < 0 || index >= this.length) throw new IndexOutOfBoundsException();
 
-    LinkedListNode prevNode = this.head;
+    LinkedListNode<T> prevNode = this.head;
 
     for (int i = 0; i < index; i++)
       prevNode = prevNode.next;
 
-    LinkedListNode node = prevNode.next;
+    LinkedListNode<T> node = prevNode.next;
     if (index != this.length) prevNode.next = node.next;
 
     this.length--;
@@ -156,9 +158,10 @@ public class LinkedList {
    *
    * @return
    */
-  public byte[] toArray() {
-    byte[] array = new byte[this.length];
-    LinkedListNode node = this.head;
+  @SuppressWarnings("unchecked")
+  public T[] toArray(Class<T> c) {
+    T[] array = (T[]) Array.newInstance(c, this.length);
+    LinkedListNode<T> node = this.head;
 
     for (int i = 0; i < this.length; i++) {
       node = node.next;
@@ -166,20 +169,5 @@ public class LinkedList {
     }
 
     return array;
-  }
-
-  public static void main(String[] args) {
-    LinkedList list = new LinkedList();
-
-    for (byte i = 0; i < 10; i++)
-      list.insert(i, list.getLength());
-
-    list.delete(list.getLength());
-
-    byte[] array = list.toArray();
-
-    for (byte b: array) {
-      System.out.println(b);
-    }
   }
 }
