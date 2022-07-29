@@ -12,8 +12,8 @@ To-do
 - [x] Dynamic array
 - [x] Singly linked list
 - [ ] Doubly linked list
-- [ ] Stack
-- [ ] Queue
+- [x] Stack
+- [x] Queue
 - [ ] Hash table
 
 ### Trees
