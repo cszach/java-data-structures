@@ -33,7 +33,7 @@ public class Stack<T> {
     LinkedListNode<T> tail = new LinkedListNode<T>(null, null);
     tail.next = tail;
 
-    this.head = new LinkedListNode<T>(null, new LinkedListNode<T>(null, null));
+    this.head = new LinkedListNode<T>(null, tail);
 
     for (T d: data)
       this.push(d);
