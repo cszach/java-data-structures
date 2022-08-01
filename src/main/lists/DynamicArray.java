@@ -1,100 +1,93 @@
-@SuppressWarnings("unchecked")
+/**
+ * A dynamic array implementation based on a fixed-size array.
+ *
+ * <p>
+ * Operations with their time complexities are:
+ *   <ul>
+ *     <li><code>shrinkCapacity</code>: O(n)</li>
+ *     <li><code>growCapacity</code>: O(n)</li>
+ *     <li><code>append</code>: O(1)</li>
+ *     <li><code>insert</code>: O(n)</li>
+ *     <li><code>remove</code> (at last element): O(1)</li>
+ *     <li><code>remove</code> (at specified index): O(n)</li>
+ *     <li><code>get</code>: O(1)</li>
+ *   </ul>
+ */
 public class DynamicArray<T> {
-  private T[] array; // The underlying fixed-size array
-  private int size = 0; // The number of elements inside this dynamic array
+  private Object[] array; // The underlying fixed-size array
+  private int length; // The number of elements in this array
 
-  /** Initializes a new dynamic array with an initial capacity of 10. */
   public DynamicArray() {
-    this.array = (T[]) new Object[10];
+    this.array = new Object[10];
+    this.length = 0;
   }
 
-  /**
-   * Initializes a new dynamic array with the given initial capacity.
-   *
-   * @param initialCapacity the initial capacity of the new dynamic array
-   */
   public DynamicArray(int initialCapacity) {
-    this.array = (T[]) new Object[initialCapacity];
+    this.array = new Object[initialCapacity];
+    this.length = 0;
   }
 
-  /**
-   * Returns the number of elements in this dynamic array.
-   *
-   * @return the number of elements in this dynamic array.
-   */
-  public int getSize() {
-    return this.size;
+  public int getLength() {
+    return this.length;
   }
 
-  /** Shrinks the capacity of the underlying fixed-size array to free unused memory. */
-  public void shrinkSize() {
-    T[] newArray = (T[]) new Object[this.size];
-    for (int i = 0; i < this.size; i++) newArray[i] = this.array[i];
+  public int getCapacity() {
+    return this.array.length;
+  }
+
+  public DynamicArray<T> shrinkCapacity() {
+    Object[] newArray = new Object[this.length];
+
+    for (int i = 0; i < this.length; i++)
+      newArray[i] = this.array[i];
+
     this.array = newArray;
+    return this;
   }
 
-  /** Doubles the capacity of the underlying fixed-size array. */
-  public void growSize() {
-    T[] newArray = (T[]) new Object[this.array.length * 2];
-    for (int i = 0; i < this.size; i++) newArray[i] = this.array[i];
+  public DynamicArray<T> growCapacity() {
+    Object[] newArray = new Object[this.array.length * 2];
+
+    for (int i = 0; i < this.length; i++)
+      newArray[i] = this.array[i];
+
     this.array = newArray;
+    return this;
   }
 
-  /**
-   * Adds a new element to the end of this dynamic array.
-   *
-   * @param e the new element to be added to the end
-   */
-  public void add(T e) {
-    if (this.size + 1 > this.array.length) this.growSize();
-    this.array[this.size++] = e;
+  public DynamicArray<T> append(T data) {
+    if (this.length + 1 > this.array.length)
+      this.growCapacity();
+
+    this.array[this.length++] = data;
+    return this;
   }
 
-  /**
-   * Adds a new element at the specified index in this dynamic array.
-   *
-   * @param e the new element to be added at the specified index
-   * @param index the index to add the new element at
-   */
-  public void add(T e, int index) {
-    if (this.size + 1 > this.array.length) this.growSize();
-    for (int i = this.size++; i > index; i--) this.array[i] = this.array[i - 1];
-    this.array[index] = e;
+  public DynamicArray<T> insert(T data, int index) {
+    if (this.length + 1 > this.array.length)
+      this.growCapacity();
+
+    for (int i = this.length++; i > index; i--)
+      this.array[i] = this.array[i - 1];
+
+    this.array[index] = data;
+    return this;
   }
 
-  /** Removes the last element in this dynamic array. */
-  public void remove() {
-    this.array[--this.size] = null;
+  public DynamicArray<T> remove() {
+    this.array[--this.length] = null;
+    return this;
   }
 
-  /**
-   * Removes the element at the specified index in this dynamic array.
-   *
-   * @param index the index of the element to be removed
-   */
-  public void removeAt(int index) {
-    // Shift to the right starting at the specified index
-    for (int i = index; i < this.size - 1; i++) this.array[i] = this.array[i + 1];
+  public DynamicArray<T> remove(int index) {
+    for (int i = index + 1; i < this.length; i++)
+      this.array[i - 1] = this.array[i];
 
-    this.remove();
+    return this.remove();
   }
 
-  /**
-   * Returns the element at the specified index in this dynamic array.
-   *
-   * @param index the index of the element to be returned
-   */
-  public T getAt(int index) {
+  @SuppressWarnings("unchecked")
+  public T get(int index) {
     return (T) this.array[index];
-  }
-
-  /**
-   * Prints elements in the specified dynamic array line-by-line.
-   *
-   * @param array the dynamic array to be printed
-   */
-  public static void printDynamicArray(DynamicArray array) {
-    for (int i = 0; i < array.getSize(); i++)
-      System.out.println(array.getAt(i));
   }
 }
