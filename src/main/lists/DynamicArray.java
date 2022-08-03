@@ -4,18 +4,18 @@
  * <p>
  * Operations with their time complexities are:
  *   <ul>
- *     <li><code>shrinkCapacity</code>: O(n)</li>
- *     <li><code>growCapacity</code>: O(n)</li>
- *     <li><code>append</code>: O(1)</li>
- *     <li><code>insert</code>: O(n)</li>
- *     <li><code>remove</code> (at last element): O(1)</li>
- *     <li><code>remove</code> (at specified index): O(n)</li>
+ *     <li><code>shrinkCapacity()</code>: O(n)</li>
+ *     <li><code>growCapacity()</code>: O(n)</li>
+ *     <li><code>append(T)</code>: O(1)</li>
+ *     <li><code>insert(T, int)</code>: O(n)</li>
+ *     <li><code>remove()</code>: O(1)</li>
+ *     <li><code>remove(int)</code>: O(n)</li>
  *     <li><code>get</code>: O(1)</li>
  *   </ul>
  */
 public class DynamicArray<T> {
-  private Object[] array; // The underlying fixed-size array
-  private int length; // The number of elements in this array
+  Object[] array; // The underlying fixed-size array
+  int length; // The number of elements in this array
 
   public DynamicArray() {
     this.array = new Object[10];

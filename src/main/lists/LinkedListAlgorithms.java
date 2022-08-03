@@ -9,16 +9,16 @@ public class LinkedListAlgorithms {
    * @param list
    * @return The first node in the cycle.
    */
-  public static <T> LinkedListNode<T> detectCycle(LinkedList<T> list) {
-    LinkedListNode<T> rabbit = list.getHead();
-    LinkedListNode<T> turtle = list.getHead();
+  public static <T> LinkedNode<T> detectCycle(LinkedList<T> list) {
+    LinkedNode<T> rabbit = list.getHead();
+    LinkedNode<T> turtle = list.getHead();
 
     while (rabbit != null && rabbit.next != null) {
       rabbit = rabbit.next.next;
       turtle = turtle.next;
 
       if (rabbit == turtle) {
-        LinkedListNode<T> bear = list.getHead();
+        LinkedNode<T> bear = list.getHead();
 
         while (bear != rabbit) {
           bear = bear.next;
@@ -49,16 +49,28 @@ public class LinkedListAlgorithms {
    * @return The intersection of two given lists, or <code>null</code> if there
    * is no intersection.
    */
-  public static <T> LinkedListNode<T> getIntersection(LinkedList<T> listA, LinkedList<T> listB) {
-    LinkedListNode<T> tail = listB.getHead(); // The last node after the intersection (if exists)
+  public static <T> LinkedNode<T> getIntersection(LinkedList<T> listA, LinkedList<T> listB) {
+    LinkedNode<T> tail = listB.getHead(); // The last node after the intersection (if exists)
 
     while (tail.next != null)
       tail = tail.next;
 
     tail.next = listA.getHead();
-    LinkedListNode<T> intersection = detectCycle(listB);
+    LinkedNode<T> intersection = detectCycle(listB);
 
     tail.next = null;
     return intersection;
+  }
+
+  /**
+   * Reverse a given linked list in-place.
+   * 
+   * @param list
+   * @return The given linked list that has been reversed.
+   */
+  public static<T> LinkedList<T> reverse(LinkedList<T> list) {
+    LinkedNode<T> next;
+    LinkedNode<T> cur;
+    LinkedNode<T> prev = list.getHead();
   }
 }
