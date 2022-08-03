@@ -3,15 +3,15 @@ import java.lang.reflect.Array;
 /**
  * Simple linked list implementation.
  *
- * <p>
- * Operations with their complexities are:
- *   <ul>
- *     <li><code>get(int)</code>: O(n)</li>
- *     <li><code>insert(T, int)</code>: O(n)</li>
- *     <li><code>insertAtHead(T)</code>: O(1)</li>
- *     <li><code>delete(int)</code>: O(n)</li>
- *     <li><code>deleteAtHead()</code>: O(1)</li>
- *   </ul>
+ * <p>Operations with their complexities are:
+ *
+ * <ul>
+ *   <li><code>get(int)</code>: O(n)
+ *   <li><code>insert(T, int)</code>: O(n)
+ *   <li><code>insertAtHead(T)</code>: O(1)
+ *   <li><code>delete(int)</code>: O(n)
+ *   <li><code>deleteAtHead()</code>: O(1)
+ * </ul>
  */
 public class LinkedList<T> {
   LinkedNode<T> head;
@@ -48,25 +48,21 @@ public class LinkedList<T> {
   }
 
   public T get(int index) {
-    if (index < 0 || index >= this.length)
-      throw new IndexOutOfBoundsException();
+    if (index < 0 || index >= this.length) throw new IndexOutOfBoundsException();
 
     LinkedNode<T> node = this.head.next;
-    for (int i = 0; i < index; i++)
-      node = node.next;
+    for (int i = 0; i < index; i++) node = node.next;
 
     return node.data;
   }
 
   public LinkedNode<T> insert(T data, int index) {
-    if (index < 0 || index > this.length)
-      throw new IndexOutOfBoundsException();
+    if (index < 0 || index > this.length) throw new IndexOutOfBoundsException();
 
     LinkedNode<T> newNode = new LinkedNode<T>(data, null);
     LinkedNode<T> prevNode = this.head;
 
-    for (int i = 0; i < index; i++)
-      prevNode = prevNode.next;
+    for (int i = 0; i < index; i++) prevNode = prevNode.next;
 
     if (index != this.length) newNode.next = prevNode.next;
     prevNode.next = newNode;
@@ -84,13 +80,11 @@ public class LinkedList<T> {
   }
 
   public LinkedNode<T> delete(int index) {
-    if (index < 0 || index >= this.length)
-      throw new IndexOutOfBoundsException();
+    if (index < 0 || index >= this.length) throw new IndexOutOfBoundsException();
 
     LinkedNode<T> prevNode = this.head;
 
-    for (int i = 0; i < index; i++)
-      prevNode = prevNode.next;
+    for (int i = 0; i < index; i++) prevNode = prevNode.next;
 
     LinkedNode<T> deletedNode = prevNode.next;
     if (index != this.length) prevNode.next = deletedNode.next;

@@ -1,20 +1,18 @@
 /**
  * An implementation of the queue data structure based on linked list.
  *
- * <p>
- * This implementation is basically a linked list with a tail, where the head
- * of the list is the front of the queue and the tail is the rear. Both the
- * front and the rear are empty nodes themselves. The last enqueued element
- * points to the rear and the rear points back to the element, forming a little
- * cycle. This helps achieve both enqueueing and dequeueing in constant time.
+ * <p>This implementation is basically a linked list with a tail, where the head of the list is the
+ * front of the queue and the tail is the rear. Both the front and the rear are empty nodes
+ * themselves. The last enqueued element points to the rear and the rear points back to the element,
+ * forming a little cycle. This helps achieve both enqueueing and dequeueing in constant time.
  *
- * <p>
- * Operations with their complexities are:
- *   <ul>
- *     <li><code>enqueue(T)</code>: O(1)</li>
- *     <li><code>dequeue()</code>: O(1)</li>
- *     <li><code>peek()</code>: O(1)</li>
- *   </ul>
+ * <p>Operations with their complexities are:
+ *
+ * <ul>
+ *   <li><code>enqueue(T)</code>: O(1)
+ *   <li><code>dequeue()</code>: O(1)
+ *   <li><code>peek()</code>: O(1)
+ * </ul>
  */
 public class LinkedQueue<T> implements Queue<T> {
   private LinkedNode<T> front; // head of linked list
@@ -44,8 +42,7 @@ public class LinkedQueue<T> implements Queue<T> {
   }
 
   public T dequeue() {
-    if (this.length == 0)
-      return null;
+    if (this.length == 0) return null;
 
     T dequeuedData = this.front.next.data;
     this.front.next = this.front.next.next;

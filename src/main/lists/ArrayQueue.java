@@ -1,17 +1,16 @@
 /**
  * An implementation of queue using a static array.
  *
- * <p>
- * This implementation uses the cyclic buffer by storing the indices of the rear
- * and the front of the queue to achieve O(1) complexity on all operations.
+ * <p>This implementation uses the cyclic buffer by storing the indices of the rear and the front of
+ * the queue to achieve O(1) complexity on all operations.
  *
- * <p>
- * Operations and their time complexities are:
- *   <ul>
- *     <li><code>enqueue(T)</code>: O(1)</li>
- *     <li><code>dequeue()</code>: O(1)</li>
- *     <li><code>peek()</code>: O(1)</li>
- *   </ul>
+ * <p>Operations and their time complexities are:
+ *
+ * <ul>
+ *   <li><code>enqueue(T)</code>: O(1)
+ *   <li><code>dequeue()</code>: O(1)
+ *   <li><code>peek()</code>: O(1)
+ * </ul>
  */
 public class ArrayQueue<T> implements Queue<T> {
   Object[] array;
@@ -40,8 +39,7 @@ public class ArrayQueue<T> implements Queue<T> {
 
   @SuppressWarnings("unchecked")
   public T enqueue(T data) {
-    if (this.length == this.array.length)
-      return null;
+    if (this.length == this.array.length) return null;
 
     this.rearIndex = (this.rearIndex + 1) % this.array.length;
     this.array[this.rearIndex] = data;
@@ -52,8 +50,7 @@ public class ArrayQueue<T> implements Queue<T> {
 
   @SuppressWarnings("unchecked")
   public T dequeue() {
-    if (this.length == 0)
-      return null;
+    if (this.length == 0) return null;
 
     T dequeuedData = (T) this.array[this.frontIndex];
     this.array[this.frontIndex] = null;
