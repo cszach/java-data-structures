@@ -35,6 +35,10 @@ public class DynamicArray<T> {
     return this.array.length;
   }
 
+  public boolean isEmpty() {
+    return this.length == 0;
+  }
+
   public DynamicArray<T> shrinkCapacity() {
     Object[] newArray = new Object[this.length];
 
