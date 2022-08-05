@@ -14,7 +14,7 @@ To-do
 - [ ] Doubly linked list
 - [x] Stack
 - [x] Queue
-- [ ] Hash table
+- [x] Hash table
 
 ### Trees
 
