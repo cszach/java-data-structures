@@ -16,16 +16,17 @@ class HashTableNode<K, V> {
 public class HashTable<K, V> {
   Object[] buckets;
   float loadFactor = 0.75f; // The maximum load factor
-  ToIntFunction<Integer> hashFunction = k -> k % this.buckets.length; // h(k)
+  ToIntFunction<Integer> hashFunction = k -> k % this.capacity; // h(k)
   int length;
+  int capacity;
 
   public HashTable() {
-    this.buckets = new Object[1 << 4]; // Start with 16 buckets by default
+    this.buckets = new Object[this.capacity = 16];
     this.length = 0;
   }
 
   public HashTable(int initialCapacity) {
-    this.buckets = new Object[initialCapacity];
+    this.buckets = new Object[this.capacity = initialCapacity];
     this.length = 0;
   }
 
@@ -33,7 +34,7 @@ public class HashTable<K, V> {
     if (loadFactor <= 0)
       throw new IllegalArgumentException("Illegal load factor: " + loadFactor);
 
-    this.buckets = new Object[initialCapacity];
+    this.buckets = new Object[this.capacity = initialCapacity];
     this.loadFactor = loadFactor;
     this.length = 0;
   }
@@ -43,7 +44,7 @@ public class HashTable<K, V> {
   }
 
   public int getCapacity() {
-    return this.buckets.length;
+    return this.capacity;
   }
 
   public ToIntFunction<Integer> getHashFunction() {
@@ -83,7 +84,7 @@ public class HashTable<K, V> {
   }
 
   public void put(K key, V value) {
-    if ((this.length + 1) / this.buckets.length > this.loadFactor)
+    if ((float) (this.length + 1) / this.capacity > this.loadFactor)
       this.expand();
 
     if (this.put(new HashTableNode<K, V>(key, value, null), this.buckets))
@@ -111,6 +112,7 @@ public class HashTable<K, V> {
       node = node.next;
     }
 
+    // TODO: this.length--;
     return false;
   }
 
@@ -129,7 +131,7 @@ public class HashTable<K, V> {
   }
 
   private void rehash(int newCapacity) {
-    Object[] newBuckets = new Object[newCapacity];
+    Object[] newBuckets = new Object[this.capacity = newCapacity];
 
     for (Object bucket: this.buckets) {
       HashTableNode<K, V> node = (HashTableNode<K, V>) bucket;
@@ -137,20 +139,41 @@ public class HashTable<K, V> {
       if (node == null)
         continue;
       else
-        while (node.next != null) {
+        do {
           this.put(node, newBuckets);
           node = node.next;
-        }
+        } while (node != null);
     }
 
     this.buckets = newBuckets;
   }
 
   private void expand() {
-    this.rehash(this.buckets.length * 2);
+    this.rehash(this.capacity * 2);
   }
 
   public void shrink(float minimumLoadFactor) {
     this.rehash((int) Math.ceil(this.length / minimumLoadFactor));
+  }
+
+  public float measureClustering() {
+    int squaresSum = 0;
+
+    for (Object bucket: this.buckets) {
+      int numElements = 0; // Number of elements in this bucket
+      HashTableNode<K, V> node = (HashTableNode<K, V>) bucket;
+
+      while (node != null) {
+        numElements++;
+        node = node.next;
+      }
+
+      squaresSum += Math.pow(numElements, 2);
+    }
+
+    int m = this.capacity;
+    float n = this.length;
+
+    return (m / (n - 1)) * (squaresSum / n - 1);
   }
 }
