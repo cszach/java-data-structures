@@ -130,7 +130,7 @@ public class HashTable<K, V> {
     return null;
   }
 
-  private void rehash(int newCapacity) {
+  private void resize(int newCapacity) {
     Object[] newBuckets = new Object[this.capacity = newCapacity];
 
     for (Object bucket: this.buckets) {
@@ -149,11 +149,11 @@ public class HashTable<K, V> {
   }
 
   private void expand() {
-    this.rehash(this.capacity * 2);
+    this.resize(this.capacity * 2);
   }
 
   public void shrink(float minimumLoadFactor) {
-    this.rehash((int) Math.ceil(this.length / minimumLoadFactor));
+    this.resize((int) Math.ceil(this.length / minimumLoadFactor));
   }
 
   public float measureClustering() {
