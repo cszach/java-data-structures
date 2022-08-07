@@ -20,6 +20,11 @@ class HashTableNode<K, V> {
  * bucket contains a linked list of {@code HashTableNode}. Each node stores a key-value pair. The
  * bucket is {@code null} if no key-value pair whose key hashes to the bucket's index has been
  * added.
+ *
+ * <p>
+ * All operations ({@code put}, {@code remove}, and {@code get}) are O(1) at
+ * best (when the load factor is good and the hash function is random) and O(n)
+ * at worst (when a hash function produces highest clustering).
  */
 @SuppressWarnings("unchecked")
 public class HashTable<K, V> {
